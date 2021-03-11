@@ -1,0 +1,166 @@
+package com.company;
+
+import java.awt.print.Book;
+import java.util.*;
+
+public interface Booking {
+    public void bookTickets();
+}
+
+public class OnlineBooking implements Booking{
+    Booking b;
+    public OnlineBooking(String s)
+    {
+        if(s.equals("Redbus"))
+        {
+            b=new Redbus();
+        }
+        else
+        {
+            b= new Abhibus();
+        }
+    }
+    public void bookTickets()
+    {
+        b.bookTickets();
+    }
+}
+
+public abstract class AtPremises implements Booking{
+    public abstract void bookingTickets();
+    public void bookTickets()
+    {
+        System.out.println("Welcome to Busstand booking centre");
+    }
+}
+
+public class BookingAgent implements Booking{
+    public void bookTickets()
+    {
+        System.out.println("Ticket Booked through BookingAgent");
+    }
+    public int getSeatNo()
+    {
+        return 1;
+    }
+}
+
+public class Abhibus implements Booking{
+    public void bookTickets()
+    {
+        System.out.println("Ticket booked through Abhibus");
+    }
+}
+
+public class Agent1 extends BookingAgent{
+    private int seatNo=11;
+    public void bookTickets()
+    {
+        System.out.println("Ticket booked by Agent1");
+    }
+    public int getSeatNo()
+    {
+        seatNo++;
+        return seatNo;
+    }
+}
+
+public class Agent2 extends BookingAgent{
+    private int seatNo=11;
+    public void bookTickets()
+    {
+        System.out.println("Ticket booked by Agent2");
+    }
+    public int getSeatNo()
+    {
+        return seatNo;
+    }
+}
+
+public class NewBusStand extends AtPremises{
+    private int seatNo=1;
+    public void bookingTickets()
+    {
+        System.out.println("Ticket has been booked at New Bus Station");
+    }
+    public int getSeatNo()
+    {
+        seatNo++;
+        return seatNo;
+    }
+}
+
+public class OldBusStand extends AtPremises{
+    private int seatNo=1;
+    public void bookingTickets()
+    {
+        System.out.println("Ticket has been booked at Old Bus stand");
+    }
+    public int getSeatNo()
+    {
+        seatNo++;
+        return seatNo;
+    }
+}
+
+
+public class Redbus implements Booking{
+    public void bookTickets()
+    {
+        System.out.println("Ticket booked through Redbus");
+    }
+}
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner scan=new Scanner(System.in);
+        System.out.println("Where  do want to book tickets");
+        int val=scan.nextInt();
+        switch(val)
+        {
+            case 1:
+                System.out.println("Agent1 Agent2");
+                int p=scan.nextInt();
+                BookingAgent agent;
+                if(p==1)
+                {
+                    agent=new Agent1();
+                }
+                else
+                {
+                    agent=new Agent2();
+                }
+                agent.bookTickets();
+                System.out.println("Ticket Number"+agent.getSeatNo());
+                break;
+            case 2:
+                System.out.println("Redbus Abhibus");
+                OnlineBooking online=new OnlineBooking(scan.next());
+                online.bookTickets();
+                break;
+            case 3:
+                System.out.println("NewBusStand OldBusStand");
+                int pp=scan.nextInt();
+                if(pp==1)
+                {
+                    NewBusStand stand=new NewBusStand();
+                    stand.bookTickets();
+                    stand.bookingTickets();
+                    System.out.println("Ticket Number"+stand.getSeatNo());
+
+                }
+                else
+                {
+                    OldBusStand stand=new OldBusStand();
+                    stand.bookTickets();
+                    stand.bookingTickets();
+                    System.out.println("Ticket Number"+stand.getSeatNo());
+                }
+
+                break;
+        }
+    }
+}
+
